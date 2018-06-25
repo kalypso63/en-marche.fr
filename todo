@@ -1,0 +1,3 @@
+* rename the values of EmailSubscriptionHistory.type column
+* remove hasSubscribedLocalHostEmails
+* add admin for SubscriptionType Entity

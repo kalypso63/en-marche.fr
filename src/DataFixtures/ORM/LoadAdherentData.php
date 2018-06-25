@@ -12,6 +12,7 @@ use AppBundle\Entity\CoordinatorManagedArea;
 use AppBundle\Entity\PostAddress;
 use AppBundle\Membership\ActivityPositions;
 use AppBundle\Membership\AdherentFactory;
+use AppBundle\Subscription\SubscriptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -73,6 +74,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'birthdate' => '1972-11-23',
         ]);
         $adherent1->addReferentTag($this->getReference('referent_tag_ch'));
+        $adherent1->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $this->addReference('adherent-1', $adherent1);
 
         $adherent2 = $adherentFactory->createFromArray([
@@ -88,7 +90,9 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'phone' => '33 0111223344',
             'registered_at' => '2016-11-16 20:45:33',
         ]);
-        $adherent2->disableCommitteesNotifications();
+        $adherent2->setSubscriptionTypes($this->getStandardSubscriptionTypes());
+        $adherent2->removeSubscriptionType($this->getReference('st-'.SubscriptionTypeEnum::LOCAL_HOST_EMAILS));
+
         $roles = new ArrayCollection();
         $roles->add($this->getReference('adherent'));
         $adherent2->setBoardMember(BoardMember::AREA_ABROAD, $roles);
@@ -108,7 +112,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'phone' => '33 187264236',
             'registered_at' => '2017-01-03 08:47:54',
         ]);
-        $adherent3->enableCommitteesNotifications();
+        $adherent3->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $adherent3->addReferentTag($this->getReference('referent_tag_75'));
         $adherent3->addReferentTag($this->getReference('referent_tag_75008'));
         $this->addReference('adherent-3', $adherent3);
@@ -128,7 +132,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
         ]);
         $adherent4->setPosition(ActivityPositions::UNEMPLOYED);
         $adherent4->setInterests(['jeunesse']);
-        $adherent4->enableCommitteesNotifications();
+        $adherent4->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $adherent4->setProcurationManagedAreaCodesAsString('75, 44, GB, 92130, 91300');
         $adherent3->addReferentTag($this->getReference('referent_tag_75'));
         $adherent4->addReferentTag($this->getReference('referent_tag_75009'));
@@ -147,7 +151,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'phone' => '33 138764334',
             'registered_at' => '2017-01-08 05:55:43',
         ]);
-        $adherent5->enableCommitteesNotifications();
+        $adherent5->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $adherent5->addReferentTag($this->getReference('referent_tag_92'));
         $this->addReference('adherent-5', $adherent5);
 
@@ -164,7 +168,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'phone' => '33 673643424',
             'registered_at' => '2017-01-16 18:33:22',
         ]);
-        $adherent6->enableCommitteesNotifications();
+        $adherent6->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $adherent6->addTag($this->getReference('adherent_tag_at001'));
         $adherent6->addTag($this->getReference('adherent_tag_at002'));
         $adherent6->addTag($this->getReference('adherent_tag_at003'));
@@ -184,7 +188,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'phone' => '33 673654349',
             'registered_at' => '2017-01-25 19:31:45',
         ]);
-        $adherent7->enableCommitteesNotifications();
+        $adherent7->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $adherent7->addReferentTag($this->getReference('referent_tag_77'));
         $this->addReference('adherent-7', $adherent7);
 
@@ -205,7 +209,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
         $roles = new ArrayCollection();
         $roles->add($this->getReference('adherent'));
         $adherent9->setBoardMember(BoardMember::AREA_FRANCE_METROPOLITAN, $roles);
-        $adherent9->enableCommitteesNotifications();
+        $adherent9->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $adherent9->addReferentTag($this->getReference('referent_tag_76'));
         $this->addReference('adherent-9', $adherent9);
 
@@ -225,7 +229,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
         $roles = new ArrayCollection();
         $roles->add($this->getReference('adherent'));
         $adherent10->setBoardMember(BoardMember::AREA_ABROAD, $roles);
-        $adherent10->enableCommitteesNotifications();
+        $adherent10->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $adherent10->addReferentTag($this->getReference('referent_tag_de'));
         $this->addReference('adherent-10', $adherent10);
 
@@ -343,7 +347,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
         $roles = new ArrayCollection();
         $roles->add($this->getReference('referent'));
         $referent->setBoardMember(BoardMember::AREA_FRANCE_METROPOLITAN, $roles);
-        $referent->enableCommitteesNotifications();
+        $referent->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $referent->addReferentTag($this->getReference('referent_tag_77'));
         $this->addReference('adherent-8', $referent);
 
@@ -370,6 +374,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             -1.6743,
             48.112
         );
+        $referent75and77->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $referent75and77->addReferentTag($this->getReference('referent_tag_75'));
         $this->addReference('adherent-19', $referent75and77);
 
@@ -394,7 +399,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             -1.6743,
             48.112
         );
-        $referentChild->enableCommitteesNotifications();
+        $referentChild->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $referentChild->addReferentTag($this->getReference('referent_tag_77'));
 
         $coordinator = $adherentFactory->createFromArray([
@@ -410,6 +415,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'phone' => '33 665859053',
             'registered_at' => '2017-09-20 15:31:21',
         ]);
+        $coordinator->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $coordinator->addCoordinatorManagedArea(new CoordinatorManagedArea(['FR'], CoordinatorAreaSectors::COMMITTEE_SECTOR));
         $coordinator->addReferentTag($this->getReference('referent_tag_94'));
 
@@ -426,6 +432,7 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
             'phone' => '33 665859053',
             'registered_at' => '2017-09-20 15:31:21',
         ]);
+        $coordinatorCP->setSubscriptionTypes($this->getStandardSubscriptionTypes());
         $coordinatorCP->addCoordinatorManagedArea(new CoordinatorManagedArea(['US', '59290', '77'], CoordinatorAreaSectors::CITIZEN_PROJECT_SECTOR));
         $coordinatorCP->addReferentTag($this->getReference('referent_tag_75'));
         $coordinatorCP->addReferentTag($this->getReference('referent_tag_75008'));
@@ -718,12 +725,20 @@ class LoadAdherentData extends AbstractFixture implements ContainerAwareInterfac
         return $this->container->get('app.committee.factory');
     }
 
+    private function getStandardSubscriptionTypes(): array
+    {
+        return array_map(function (string $type) {
+            return $this->getReference('st-'.$type);
+        }, SubscriptionTypeEnum::toArray());
+    }
+
     public function getDependencies()
     {
         return [
             LoadBoardMemberRoleData::class,
             LoadAdherentTagData::class,
             LoadReferentTagData::class,
+            LoadSubscriptionTypeData::class,
         ];
     }
 }

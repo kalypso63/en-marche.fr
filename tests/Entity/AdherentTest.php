@@ -10,7 +10,7 @@ use AppBundle\Entity\PostAddress;
 use AppBundle\Entity\ReferentTag;
 use AppBundle\Geocoder\Coordinates;
 use AppBundle\Membership\ActivityPositions;
-use AppBundle\Membership\AdherentEmailSubscription;
+use AppBundle\Subscription\SubscriptionTypeEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use libphonenumber\PhoneNumber;
 use PHPUnit\Framework\TestCase;
@@ -55,37 +55,37 @@ class AdherentTest extends TestCase
 
         $this->assertSame(-1, $adherent->getCitizenProjectCreationEmailSubscriptionRadius());
         $this->assertFalse($adherent->hasSubscribedLocalHostEmails());
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOVEMENT_INFORMATION));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_GOVERNMENT_INFORMATION));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_WEEKLY_LETTER));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MICROLEARNING));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOOC));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_DONATOR_INFORMATION));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_REFERENTS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOVEMENT_INFORMATION_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::GOVERNMENT_INFORMATION_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::WEEKLY_LETTER_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::MICROLEARNING_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOOC_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::DONATOR_INFORMATION_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::REFERENT_EMAILS));
         $this->assertFalse($adherent->hasCitizenProjectCreationEmailSubscription());
 
         $adherent->setComEmail(true);
         $this->assertSame(10, $adherent->getCitizenProjectCreationEmailSubscriptionRadius());
         $this->assertTrue($adherent->hasSubscribedLocalHostEmails());
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOVEMENT_INFORMATION));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_GOVERNMENT_INFORMATION));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_WEEKLY_LETTER));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MICROLEARNING));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOOC));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_DONATOR_INFORMATION));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_REFERENTS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOVEMENT_INFORMATION_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::GOVERNMENT_INFORMATION_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::WEEKLY_LETTER_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::MICROLEARNING_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOOC_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::DONATOR_INFORMATION_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::REFERENT_EMAILS));
         $this->assertTrue($adherent->hasCitizenProjectCreationEmailSubscription());
 
         $adherent->setComEmail(false);
         $this->assertSame(-1, $adherent->getCitizenProjectCreationEmailSubscriptionRadius());
         $this->assertFalse($adherent->hasSubscribedLocalHostEmails());
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOVEMENT_INFORMATION));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_GOVERNMENT_INFORMATION));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_WEEKLY_LETTER));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MICROLEARNING));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOOC));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_DONATOR_INFORMATION));
-        $this->assertFalse($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_REFERENTS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOVEMENT_INFORMATION_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::GOVERNMENT_INFORMATION_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::WEEKLY_LETTER_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::MICROLEARNING_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOOC_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::DONATOR_INFORMATION_EMAILS));
+        $this->assertFalse($adherent->hasSubscriptionType(SubscriptionTypeEnum::REFERENT_EMAILS));
         $this->assertFalse($adherent->hasCitizenProjectCreationEmailSubscription());
     }
 

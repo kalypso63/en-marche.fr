@@ -14,6 +14,7 @@ use AppBundle\Entity\CommitteeMembership;
 use AppBundle\Geocoder\Coordinates;
 use AppBundle\Membership\AdherentEmailSubscription;
 use AppBundle\Statistics\StatisticsParametersFilter;
+use AppBundle\Subscription\SubscriptionTypeEnum;
 use AppBundle\Utils\RepositoryUtils;
 use Cake\Chronos\Chronos;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -304,6 +305,12 @@ class AdherentRepository extends ServiceEntityRepository implements UserLoaderIn
                     $citizenProject->getLongitude()
                 )
             );
+
+        $qb
+            ->join('n.subscriptionTypes', 'subscriptionType')
+            ->andWhere('subscriptionType.code = :citizen_project_subscription_type')
+            ->setParameter('citizen_project_subscription_type', SubscriptionTypeEnum::CITIZEN_PROJECT_CREATION_EMAILS)
+        ;
 
         $distance = $qb->expr()->orX();
         $distance->add($this->getNearbyExpression().' <= :distance_max')

@@ -6,10 +6,10 @@ use AppBundle\DataFixtures\ORM\LoadAdherentData;
 use AppBundle\Entity\Adherent;
 use AppBundle\Entity\AdherentActivationToken;
 use AppBundle\Mailer\Message\AdherentAccountActivationMessage;
-use AppBundle\Membership\AdherentEmailSubscription;
 use AppBundle\Repository\AdherentActivationTokenRepository;
 use AppBundle\Repository\AdherentRepository;
 use AppBundle\Repository\EmailRepository;
+use AppBundle\Subscription\SubscriptionTypeEnum;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\Controller\ControllerTestTrait;
@@ -95,13 +95,13 @@ class MembershipControllerTest extends WebTestCase
         $this->assertNull($adherent->getLongitude());
         $this->assertNull($adherent->getPosition());
         $this->assertTrue($adherent->hasSubscribedLocalHostEmails());
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOVEMENT_INFORMATION));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_GOVERNMENT_INFORMATION));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_WEEKLY_LETTER));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MICROLEARNING));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_MOOC));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_DONATOR_INFORMATION));
-        $this->assertTrue($adherent->hasEmailSubscription(AdherentEmailSubscription::SUBSCRIBED_EMAILS_REFERENTS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOVEMENT_INFORMATION_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::GOVERNMENT_INFORMATION_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::WEEKLY_LETTER_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::MICROLEARNING_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::MOOC_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::DONATOR_INFORMATION_EMAILS));
+        $this->assertTrue($adherent->hasSubscriptionType(SubscriptionTypeEnum::REFERENT_EMAILS));
         $this->assertTrue($adherent->hasCitizenProjectCreationEmailSubscription());
 
         /** @var Adherent $adherent */

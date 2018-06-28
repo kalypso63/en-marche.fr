@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
-use Symfony\Component\Translation\TranslatorInterface;
 
 class NewsletterController extends Controller
 {
@@ -24,7 +23,6 @@ class NewsletterController extends Controller
      */
     public function subscriptionAction(
         Request $request,
-        TranslatorInterface $translator,
         NewsletterSubscriptionProcess $newsletterSubscriptionProcess
     ): Response {
         $subscription = new NewsletterSubscription();
@@ -39,7 +37,7 @@ class NewsletterController extends Controller
             if ($path = $newsletterSubscriptionProcess->getSuccessRedirectPath() ?? null) {
                 $newsletterSubscriptionProcess->terminate();
 
-                $this->addFlash('info', $translator->trans('newsletter.subscription.success'));
+                $this->addFlash('info', 'newsletter.subscription.success');
 
                 return $this->redirect($path);
             }

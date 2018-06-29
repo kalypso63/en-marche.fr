@@ -185,7 +185,6 @@ class AdherentControllerTest extends WebTestCase
         $this->assertSame('8', $crawler->filter(sprintf($optionPattern, 'birthdate][day'))->attr('value'));
         $this->assertSame('7', $crawler->filter(sprintf($optionPattern, 'birthdate][month'))->attr('value'));
         $this->assertSame('1950', $crawler->filter(sprintf($optionPattern, 'birthdate][year'))->attr('value'));
-        $this->assertSame('carl999@example.fr', $crawler->filter(sprintf($inputPattern, 'emailAddress'))->attr('value'));
         self::assertCount(1, $adherent->getReferentTags());
         self::assertAdherentHasReferentTag($adherent, '73');
 
@@ -207,21 +206,19 @@ class AdherentControllerTest extends WebTestCase
                     'number' => '',
                 ],
                 'position' => 'student',
-                'emailAddress' => '',
             ],
         ]));
 
         $errors = $crawler->filter('.form__errors > li');
 
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
-        $this->assertSame(5, $errors->count());
+        $this->assertSame(4, $errors->count());
         $this->assertSame('Cette valeur ne doit pas être vide.', $errors->eq(0)->text());
         $this->assertSame('Cette valeur ne doit pas être vide.', $errors->eq(1)->text());
         $this->assertSame('Veuillez renseigner un code postal.', $errors->eq(2)->text());
         $this->assertSame('L\'adresse est obligatoire.', $errors->eq(3)->text());
-        $this->assertSame('Cette valeur ne doit pas être vide.', $errors->eq(4)->text());
 
-        // Submit the profile form with duplicate email and too long input
+        // Submit the profile form with too long input
         $crawler = $this->client->submit($crawler->selectButton('adherent[submit]')->form([
             'adherent' => [
                 'gender' => 'female',
@@ -244,18 +241,16 @@ class AdherentControllerTest extends WebTestCase
                     'month' => '10',
                     'day' => '27',
                 ],
-                'emailAddress' => 'michelle.dufour@example.ch',
             ],
         ]));
 
         $errors = $crawler->filter('.form__errors > li');
 
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
-        $this->assertSame(4, $errors->count());
+        $this->assertSame(3, $errors->count());
         $this->assertSame('Le code postal doit contenir moins de 15 caractères.', $errors->eq(0)->text());
         $this->assertSame('Cette valeur n\'est pas un code postal français valide.', $errors->eq(1)->text());
         $this->assertSame('L\'adresse ne peut pas dépasser 150 caractères.', $errors->eq(2)->text());
-        $this->assertSame('Cette adresse e-mail existe déjà.', $errors->eq(3)->text());
 
         // Submit the profile form with valid data
         $this->client->submit($crawler->selectButton('adherent[submit]')->form([
@@ -280,7 +275,6 @@ class AdherentControllerTest extends WebTestCase
                     'month' => '10',
                     'day' => '27',
                 ],
-                'emailAddress' => 'new.email@address.com',
             ],
         ]));
 
@@ -292,7 +286,7 @@ class AdherentControllerTest extends WebTestCase
 
         // We need to reload the manager reference to get the updated data
         /** @var Adherent $adherent */
-        $adherent = $this->client->getContainer()->get('doctrine')->getManager()->getRepository(Adherent::class)->findOneByEmail('new.email@address.com');
+        $adherent = $this->client->getContainer()->get('doctrine')->getManager()->getRepository(Adherent::class)->findOneByEmail('carl999@example.fr');
 
         $this->assertSame('female', $adherent->getGender());
         $this->assertSame('Jean Dupont', $adherent->getFullName());
@@ -301,7 +295,6 @@ class AdherentControllerTest extends WebTestCase
         $this->assertSame('Nice', $adherent->getCityName());
         $this->assertSame('401020304', $adherent->getPhone()->getNationalNumber());
         $this->assertSame('student', $adherent->getPosition());
-        $this->assertSame('new.email@address.com', $adherent->getEmailAddress());
         $this->assertNotNull($newLatitude = $adherent->getLatitude());
         $this->assertNotNull($newLongitude = $adherent->getLongitude());
         $this->assertNotSame($oldLatitude, $newLatitude);

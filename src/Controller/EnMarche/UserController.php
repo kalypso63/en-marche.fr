@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\EnMarche;
 
 use AppBundle\Entity\Adherent;
-use AppBundle\Entity\AdherentChangeEmailToken;
 use AppBundle\Entity\Unregistration;
 use AppBundle\Form\AdherentChangeEmailType;
 use AppBundle\Form\AdherentChangePasswordType;

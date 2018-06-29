@@ -286,7 +286,7 @@ class AdherentControllerTest extends WebTestCase
 
         // We need to reload the manager reference to get the updated data
         /** @var Adherent $adherent */
-        $adherent = $this->getAdherentRepository()->findOneByEmail('carl999@example.fr');
+        $adherent = $this->client->getContainer()->get('doctrine')->getManager()->getRepository(Adherent::class)->findOneByEmail('carl999@example.fr');
 
         $this->assertSame('female', $adherent->getGender());
         $this->assertSame('Jean Dupont', $adherent->getFullName());

@@ -80,7 +80,7 @@ class UniqueMembershipValidator extends ConstraintValidator
             return $adherent;
         }
 
-        if ($token = $this->changeEmailTokenRepository->findOneUnusedByEmail($emailAddress)) {
+        if ($token = $this->changeEmailTokenRepository->findLastUnusedByEmail($emailAddress)) {
             return $this->adherentRepository->findOneByUuid($token->getAdherentUuid());
         }
 

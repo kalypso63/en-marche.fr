@@ -31,24 +31,7 @@ class AdherentChangeEmailTokenRepository extends AbstractAdherentTokenRepository
         ;
     }
 
-    public function invalidateOtherActiveToken(Adherent $adherent, AdherentChangeEmailToken $token): void
-    {
-        $this
-            ->getEntityManager()
-            ->createQueryBuilder()
-            ->update(AdherentChangeEmailToken::class, 'token')
-            ->set('token.expiredAt', ':date')
-            ->where('token.adherentUuid = :uuid AND token.usedAt IS NULL AND token.id != :last_token')
-            ->getQuery()
-            ->execute([
-                'date' => new \DateTime('-1 second'),
-                'uuid' => $adherent->getUuidAsString(),
-                'last_token' => $token->getId(),
-            ])
-        ;
-    }
-
-    public function findOneUnusedByEmail(string $emailAddress): ?AdherentChangeEmailToken
+    public function findLastUnusedByEmail(string $emailAddress): ?AdherentChangeEmailToken
     {
         return $this
             ->createQueryBuilder('token')
@@ -63,6 +46,23 @@ class AdherentChangeEmailTokenRepository extends AbstractAdherentTokenRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    public function invalidateOtherActiveToken(Adherent $adherent, AdherentChangeEmailToken $token): void
+    {
+        $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->update(AdherentChangeEmailToken::class, 'token')
+            ->set('token.expiredAt', ':date')
+            ->where('token.adherentUuid = :uuid AND token.usedAt IS NULL AND token.id != :last_token')
+            ->getQuery()
+            ->execute([
+                'date' => new \DateTime('-1 second'),
+                'uuid' => $adherent->getUuidAsString(),
+                'last_token' => $token->getId(),
+            ])
         ;
     }
 }

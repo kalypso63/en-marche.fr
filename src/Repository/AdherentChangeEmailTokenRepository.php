@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Adherent;
 use AppBundle\Entity\AdherentChangeEmailToken;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class AdherentChangeEmailTokenRepository extends AbstractAdherentTokenRepository
@@ -16,16 +17,9 @@ class AdherentChangeEmailTokenRepository extends AbstractAdherentTokenRepository
     public function findLastUnusedByAdherent(Adherent $adherent): ?AdherentChangeEmailToken
     {
         return $this
-            ->createQueryBuilder('token')
-            ->where('token.adherentUuid = :uuid')
-            ->andWhere('token.usedAt IS NULL')
-            ->andWhere('token.expiredAt >= :date')
-            ->setParameters([
-                'uuid' => $adherent->getUuidAsString(),
-                'date' => new \DateTime(),
-            ])
-            ->orderBy('token.createdAt', 'DESC')
-            ->setMaxResults(1)
+            ->createQueryForLastUnused('token')
+            ->andWhere('token.adherentUuid = :uuid')
+            ->setParameter('uuid', $adherent->getUuidAsString())
             ->getQuery()
             ->getOneOrNullResult()
         ;
@@ -34,16 +28,9 @@ class AdherentChangeEmailTokenRepository extends AbstractAdherentTokenRepository
     public function findLastUnusedByEmail(string $emailAddress): ?AdherentChangeEmailToken
     {
         return $this
-            ->createQueryBuilder('token')
-            ->where('token.email = :email')
-            ->andWhere('token.usedAt IS NULL')
-            ->andWhere('token.expiredAt >= :date')
-            ->setParameters([
-                'email' => $emailAddress,
-                'date' => new \DateTime(),
-            ])
-            ->orderBy('token.createdAt', 'DESC')
-            ->setMaxResults(1)
+            ->createQueryForLastUnused('token')
+            ->andWhere('token.email = :email')
+            ->setParameter('email', $emailAddress)
             ->getQuery()
             ->getOneOrNullResult()
         ;
@@ -63,6 +50,17 @@ class AdherentChangeEmailTokenRepository extends AbstractAdherentTokenRepository
                 'uuid' => $adherent->getUuidAsString(),
                 'last_token' => $token->getId(),
             ])
+        ;
+    }
+
+    private function createQueryForLastUnused(string $alias): QueryBuilder
+    {
+        return $this
+            ->createQueryBuilder($alias)
+            ->where("${alias}.usedAt IS NULL AND ${alias}.expiredAt >= :date")
+            ->setParameter('date', new \DateTime())
+            ->setMaxResults(1)
+            ->orderBy("${alias}.createdAt", 'DESC')
         ;
     }
 }

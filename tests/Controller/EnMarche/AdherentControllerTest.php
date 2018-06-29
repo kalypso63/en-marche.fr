@@ -282,11 +282,11 @@ class AdherentControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertSame('Vos informations ont été mises à jour avec succès.', trim($crawler->filter('#notice-flashes')->text()));
+        $this->seeFlashMessage($crawler, 'Vos informations ont été mises à jour avec succès.');
 
         // We need to reload the manager reference to get the updated data
         /** @var Adherent $adherent */
-        $adherent = $this->client->getContainer()->get('doctrine')->getManager()->getRepository(Adherent::class)->findOneByEmail('carl999@example.fr');
+        $adherent = $this->getAdherentRepository()->findOneByEmail('carl999@example.fr');
 
         $this->assertSame('female', $adherent->getGender());
         $this->assertSame('Jean Dupont', $adherent->getFullName());
@@ -826,7 +826,7 @@ class AdherentControllerTest extends WebTestCase
         // Follow the redirect and check the adherent can see the committee page
         $crawler = $this->client->followRedirect();
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
-        $this->assertContains('Votre comité a été créé avec succès. Il est en attente de validation par nos équipes.', $crawler->filter('#notice-flashes')->text());
+        $this->seeFlashMessage($crawler, 'Votre comité a été créé avec succès. Il est en attente de validation par nos équipes.');
         $this->assertSame('Lyon est En Marche !', $crawler->filter('#committee-name')->text());
         $this->assertSame('Comité français En Marche ! de la ville de Lyon', $crawler->filter('#committee-description')->text());
 
@@ -888,7 +888,7 @@ class AdherentControllerTest extends WebTestCase
         $this->assertStatusCode(Response::HTTP_FOUND, $this->client);
         $crawler = $this->client->followRedirect();
         $this->assertStatusCode(Response::HTTP_OK, $this->client);
-        $this->assertContains('Votre message a bien été envoyé.', $crawler->filter('#notice-flashes')->text());
+        $this->seeFlashMessage($crawler, 'Votre message a bien été envoyé.');
 
         // Email should have been sent
         $this->assertCount(1, $this->getEmailRepository()->findMessages(AdherentContactMessage::class));

@@ -20,8 +20,8 @@ class UniqueMembershipValidator extends ConstraintValidator
     public function __construct(
         AdherentRepository $adherentRepository,
         AdherentChangeEmailTokenRepository $changeEmailTokenRepository,
-        TokenStorageInterface $tokenStorage)
-    {
+        TokenStorageInterface $tokenStorage
+    ) {
         $this->adherentRepository = $adherentRepository;
         $this->changeEmailTokenRepository = $changeEmailTokenRepository;
         $this->tokenStorage = $tokenStorage;

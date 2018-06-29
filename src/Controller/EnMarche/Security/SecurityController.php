@@ -181,12 +181,12 @@ class SecurityController extends Controller
 
         try {
             $handler->handleValidationRequest($adherent, $token);
-            $this->addFlash('info', $this->get('translator')->trans('adherent.change_email.success'));
-        } catch (AdherentTokenExpiredException $e) {
-            $this->addFlash('info', $this->get('translator')->trans('adherent.change_email.expired_key'));
-        }
 
-        $tokenStorage->setToken(null);
+            $this->addFlash('info', 'adherent.change_email.success');
+            $tokenStorage->setToken(null);
+        } catch (AdherentTokenExpiredException $e) {
+            $this->addFlash('info', 'adherent.change_email.expired_key');
+        }
 
         return $this->redirectToRoute('homepage');
     }

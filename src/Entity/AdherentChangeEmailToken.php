@@ -7,6 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AdherentChangeEmailTokenRepository")
+ * @ORM\Table(indexes={
+ *     @ORM\Index(columns={"email", "used_at", "expired_at"})
+ * })
  *
  * @Algolia\Index(autoIndex=false)
  */

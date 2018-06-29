@@ -16,9 +16,10 @@ final class Version20180627130852 extends AbstractMigration
                 value VARCHAR(40) NOT NULL, 
                 created_at DATETIME NOT NULL, 
                 expired_at DATETIME NOT NULL, 
-                used_at DATETIME DEFAULT NULL, 
+                used_at DATETIME DEFAULT NULL,
                 email VARCHAR(255) NOT NULL, 
                 uuid CHAR(36) NOT NULL COMMENT \'(DC2Type:uuid)\', 
+                INDEX IDX_6F8B4B5AE7927C7477241BAC253ECC4 (email, used_at, expired_at), 
                 PRIMARY KEY(id)
             ) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB'
         );

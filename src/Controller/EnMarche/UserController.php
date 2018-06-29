@@ -100,18 +100,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/renvoyer-email-validation/{uuid}", name="app_user_resend_validation_email")
-     */
-    public function sendValidationEmailAction(AdherentChangeEmailToken $token, AdherentChangeEmailHandler $handler): Response
-    {
-        $handler->sendValidationEmail($this->getUser(), $token);
-
-        $this->addFlash('info', 'adherent.change_email.email_sent');
-
-        return $this->redirectToRoute('app_user_profile');
-    }
-
-    /**
      * This action enables an adherent to change his/her current password.
      *
      * @Route("/changer-mot-de-passe", name="app_user_change_password")

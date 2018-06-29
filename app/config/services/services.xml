@@ -91,7 +91,7 @@
         <service id="AppBundle\Membership\AdherentChangeEmailHandler">
             <argument key="$mailer" type="service" id="app.mailer.transactional" />
         </service>
-        <service id="AppBundle\Membership\EventListener\ChangeEmailSubscriber" />
+        <service id="ChangeEmailFlashMessageSubscriber" />
 
         <!-- Event -->
         <service id="AppBundle\Event\EventFactory" public="true" />

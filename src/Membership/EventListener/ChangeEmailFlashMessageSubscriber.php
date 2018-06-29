@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class ChangeEmailSubscriber implements EventSubscriberInterface
+class ChangeEmailFlashMessageSubscriber implements EventSubscriberInterface
 {
     private const MESSAGE = 'adherent.change_email.email_sent';
 
